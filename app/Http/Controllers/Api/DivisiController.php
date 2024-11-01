@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use App\Http\Controllers\Controller;
+use App\Models\Divisi;
 use Illuminate\Support\Facades\Validator;
 
-class PegawaiController extends Controller
+class DivisiController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $db = Pegawai::orderBy('Nama_Lengkap')->get();
+        $db = Divisi::orderBy('Nama_Divisi')->get();
         
         return response()->json([
             'status' => true,
-            'pesan' => 'Data Pegawai Berhasil Ditampilkan',
+            'pesan' => 'Data Divisi Berhasil Ditampilkan',
             'data' => $db
         ]);
     }
@@ -29,8 +29,8 @@ class PegawaiController extends Controller
      */
     public function store(Request $request)
     {
-        $validasi = Validator::make($request->all(), [
-            'Nama_Lengkap' =>'required'
+        $validasi = Validator::make($request->all(),[
+            'Nama_Divisi' => 'required',
         ]);
 
         if($validasi->fails()){
@@ -41,16 +41,16 @@ class PegawaiController extends Controller
         }
 
         $data = [
-            'Nama_Lengkap' => $request->Nama_Lengkap,
+            'Nama_Divisi' => $request->Nama_Divisi,
             'created' => Carbon::now()->toTimeString() . ' ' . Carbon::now()->toDateString(),
             'updated' => Carbon::now()->toTimeString() . ' ' .Carbon::now()->toDateString(),
         ];
 
-        $db = Pegawai::create($data);
+        $db = Divisi::create($data);
 
         return response()->json([
             'status' => true,
-            'pesan' => 'Data Pegawai Berhasil Ditambahkan',
+            'pesan' => 'Data Divisi Berhasil Ditambahkan',
             'data' => $db
         ]);
     }
@@ -60,7 +60,7 @@ class PegawaiController extends Controller
      */
     public function show(string $id)
     {
-        $db = Pegawai::findOrFail($id);
+        $db = Divisi::findOrFail($id);
 
         return response()->json([
             'status' => true,
@@ -75,7 +75,7 @@ class PegawaiController extends Controller
     public function update(Request $request, string $id)
     {
         $validasi = Validator::make($request->all(), [
-            'Nama_Lengkap' =>'required'
+            'Nama_Divisi' =>'required'
         ]);
 
         if($validasi->fails()){
@@ -86,16 +86,16 @@ class PegawaiController extends Controller
         }
 
         $data = [
-            'Nama_Lengkap' => $request->Nama_Lengkap,
+            'Nama_Divisi' => $request->Nama_Divisi,
             'updated' => Carbon::now()->toTimeString() . ' ' .Carbon::now()->toDateString(),
         ];
 
-        $db = Pegawai::findOrFail($id);
+        $db = Divisi::findOrFail($id);
         $db->update($data);
 
         return response()->json([
             'status' => true,
-            'pesan' => 'Data Pegawai Berhasil Diubah',
+            'pesan' => 'Data Divisi Berhasil Diubah',
             'data' => $db
         ]);
     }
@@ -105,12 +105,12 @@ class PegawaiController extends Controller
      */
     public function destroy(string $id)
     {
-        $db = Pegawai::findOrFail($id);
+        $db = Divisi::findOrFail($id);
         $db->delete();
 
         return response()->json([
             'status' => true,
-            'pesan' => 'Data Pegawai Berhasil Dihapus'
+            'pesan' => 'Data Divisi Berhasil Dihapus'
         ]);
     }
 }
